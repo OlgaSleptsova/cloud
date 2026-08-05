@@ -1,0 +1,55 @@
+/* App.css */
+
+/* Общие стили для приложения */
+.app {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  padding: 20px;
+  background-color: #ffffff;
+  flex-grow: 1;
+}
+
+/* Стили для шапки */
+header {
+  background-color: #333333;
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+/* Стили для навигации */
+nav {
+  background-color: #59a6d0;
+  padding: 10px;
+  color: white;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Стили для подвала */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 20px;
+}
