@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework.authtoken.views import obtain_auth_token
-
+from django.views.generic import TemplateView
 
 
 
@@ -30,5 +30,6 @@ urlpatterns = [
     #path('api/auth/token/', include('rest_framework_simplejwt.urls')),
     path('api_admin/', include('adminmodul.urls')),
     path('api_files/',include('filesstorage.urls')),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
    
 ]

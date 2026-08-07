@@ -35,19 +35,27 @@ pip freeze (проверка установки модулей)
 
 sudo su postgres
 psql
-CREATE USER olga WiTH SUPERUSER
-
+CREATE USER olga WiTH SUPERUSER;
+CREATE USER vova WiTH SUPERUSER;
+create user vova with superuser;
 alter user olga with password '123Qweasd~' (вводим пароль);
+alter user vova with password '123Qweasd~'; (вводим пароль);
+alter user postgres with password '123Qweasd~' (вводим пароль);
+create database mydatabase;
+\q
+exit
 
-create database olga;
+
+<!-- create database olga;
 \q
 exit
 psql
 create database mydatabase;
-\q
+\q -->
 
 9. Меняем настройки в Settings.py
 nano mycloud/settings.py
+ALLOWED_HOSTS = [] добавляем IP адрес сервера
 
 10. Делаем миграции.
 
@@ -55,7 +63,7 @@ python manage.py migrate
 
 10. Собираем статику.
 
-python manage.py collectstatisc
+python manage.py collectstatic
 
 12. Устанавливаем и настраиваем gunicorn.
 
