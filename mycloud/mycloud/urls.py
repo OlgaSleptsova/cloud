@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.authtoken.views import obtain_auth_token
 from django.views.generic import TemplateView
+import os
+from django.conf import settings
 
-
-
+custom_template_path = os.path.join(settings.BASE_DIR, 'frontend', 'index.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +31,6 @@ urlpatterns = [
     #path('api/auth/token/', include('rest_framework_simplejwt.urls')),
     path('api_admin/', include('adminmodul.urls')),
     path('api_files/',include('filesstorage.urls')),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('', TemplateView.as_view(template_name=custom_template_path), name='home'),
    
 ]
