@@ -82,7 +82,7 @@ ROOT_URLCONF = 'mycloud.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.parent  / "frontend"/"dist"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,8 +104,7 @@ WSGI_APPLICATION = 'mycloud.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
+        'NAME': 'mycloud',
         'USER': 'postgres',
         'PASSWORD': '123Qweasd',
         'HOST': 'localhost',
@@ -150,12 +149,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    BASE_DIR.parent  / "frontend/dist",  # путь к вашей папке dist
+    BASE_DIR.parent  / "frontend"/"dist",  # путь к вашей папке dist
 ]
 
 # Default primary key field type

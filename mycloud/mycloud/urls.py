@@ -20,8 +20,10 @@ from rest_framework.authtoken.views import obtain_auth_token
 from django.views.generic import TemplateView
 import os
 from django.conf import settings
+from django.conf.urls.static import static
 
-custom_template_path = os.path.join(settings.BASE_DIR, 'frontend', 'index.html')
+#custom_template_path = os.path.join(settings.BASE_DIR, 'frontend', 'index.html')
+custom_template_path = os.path.join(settings.BASE_DIR.parent, 'frontend', 'index.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +33,8 @@ urlpatterns = [
     #path('api/auth/token/', include('rest_framework_simplejwt.urls')),
     path('api_admin/', include('adminmodul.urls')),
     path('api_files/',include('filesstorage.urls')),
-    path('', TemplateView.as_view(template_name=custom_template_path), name='home'),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
    
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

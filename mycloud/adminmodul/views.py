@@ -55,10 +55,11 @@ def users_file_list(request, user_name):
         user = User.objects.filter(username = user_name)
         serializer = PersonsFilesSerializer(user, many=True)
         data = serializer.data
-        if len(data[0]["files"])==0:
-            return Response("Нет файлов")
-        else: 
-         return Response(data[0]["files"], status=200)
+        return Response(data, status=200)
+        # if len(data[0]["files"])==0:
+        #     return Response("Нет файлов")
+        # else: 
+        #  return Response(data[0]["files"], status=200)
 
     except Exception as e:
         logger.error(f"Error fetching files: {str(e)}", exc_info=True)

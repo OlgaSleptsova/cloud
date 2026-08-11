@@ -73,10 +73,8 @@ function UserPage() {
         method: "GET",
         url: `${API_URL}api_admin/persons/files/${userObj.username}/`,
       });
-      console.log(response.data)
-      console.log(response.data.length
-)
-      setFiles(response.data || []);
+ 
+      setFiles(response.data.files || []);
     } catch (error) {
       console.error("Ошибка получения файлов:", error);
     } finally {
