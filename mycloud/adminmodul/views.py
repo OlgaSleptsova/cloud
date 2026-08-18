@@ -55,7 +55,7 @@ def users_file_list(request, user_name):
         user = User.objects.filter(username = user_name)
         serializer = PersonsFilesSerializer(user, many=True)
         data = serializer.data
-        return Response(data, status=200)
+        return JsonResponse({'files': data[0]["files"]}, status=200)
         # if len(data[0]["files"])==0:
         #     return Response("Нет файлов")
         # else: 

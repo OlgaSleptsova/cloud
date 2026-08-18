@@ -31,34 +31,47 @@ source venv/bin/activate
 pip install -r requirements.txt
 pip freeze (проверка установки модулей)
 
-8. Создаём базу данных.
+8. Создаём базу данных и суперпользователя.
 
 sudo su postgres
 psql
-CREATE USER olga WiTH SUPERUSER;
-CREATE USER vova WiTH SUPERUSER;
 create user olga with superuser;
-alter user olga with password '123Qweasd~'; (вводим пароль);
-alter user vova with password '123Qweasd~'; (вводим пароль);
-alter user postgres with password '123Qweasd~' (вводим пароль);
-create database mydatabase;
+alter user postgres with password '123Qweasd~'
+
+alter user olga with password '123Qweasd~'; 
+create database mycloud;
 \q
 exit
 
 
-<!-- create database olga;
-\q
-exit
-psql
-create database mydatabase;
-\q -->
-
-9. Меняем настройки в Settings.py
-nano mycloud/settings.py
-ALLOWED_HOSTS = [] добавляем IP адрес сервера
-
-10. Делаем миграции.
+9.  Делаем миграции.
 
 python manage.py migrate
 
+10. Собираем статику.
 
+python manage.py collectstatic
+
+11. В файле .env в папке frontend:
+
+nano .env
+
+VITE_API_URL=http://............/ (вводим IP)
+
+12.  В командной строке (терминал), находясь в папке frontend:
+
+sudo apt install npm
+
+npm i
+
+npm run build (осуществляем сборку)
+
+13. Устанавливаем и настраиваем gunicorn.
+
+pip install gunicorn
+
+pip install django-cors-headers
+В Setting.py меняем IP адрес
+CORS_ALLOWED_ORIGINS = [
+    "http://89.104.71.118:8000",
+]
