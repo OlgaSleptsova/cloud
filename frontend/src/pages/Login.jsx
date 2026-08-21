@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setAuthState } from "../store/authSlice";
 import "./Login.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/";
 
 axios.defaults.withCredentials = true;
 
@@ -40,7 +40,7 @@ const Login = () => {
     setError("");
 
     try {
-    const response = await fetch(`${API_URL}/api/api-token-auth/`, {
+    const response = await fetch(`${API_URL}api/api-token-auth/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -50,7 +50,7 @@ const Login = () => {
       const data = await response.json();
       localStorage.setItem('auth_token', data.token); // Сохраняем токен
       console.log('Успешный вход!', data.token);
-      const response_user = await fetch(`${API_URL}/api_admin/user/me/${data.token}/`, {
+      const response_user = await fetch(`${API_URL}api_admin/user/me/${data.token}/`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json',
         

@@ -48,17 +48,15 @@ exit
 
 python manage.py migrate
 
-10. Собираем статику.
 
-python manage.py collectstatic
 
-11. В файле .env в папке frontend:
+10.  В файле .env в папке frontend:
 
 nano .env
 
 VITE_API_URL=http://............/ (вводим IP)
 
-12.  В командной строке (терминал), находясь в папке frontend:
+11.  В командной строке (терминал), находясь в папке frontend:
 
 sudo apt install npm
 
@@ -66,12 +64,95 @@ npm i
 
 npm run build (осуществляем сборку)
 
-13. Устанавливаем и настраиваем gunicorn.
+12. Устанавливаем и настраиваем gunicorn.
 
 pip install gunicorn
+sudo nano /etc/systemd/system/gunicorn.service (создаем файл с настройками)
+в файле делаем следующую запись:
+[Unit]
+Description=gunicorn service
+After=network.target
 
-pip install django-cors-headers
-В Setting.py меняем IP адрес
-CORS_ALLOWED_ORIGINS = [
-    "http://89.104.71.118:8000",
-]
+[Service]
+User=olga
+Group=www-data
+WorkingDirectory=/home/olga/cloud/mycloud
+ExecStart=/home/olga/cloud/mycloud/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/home/olga/cloud/mycloud/mycloud/project.sock \
+          mycloud.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+запускаем сервер
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+sudo systemctl status gunicorn
+
+13. Установливаем nginx.
+
+sudo nano /etc/nginx/nginx.conf (меняем  ubuntu на имя вашего пользователя)
+
+    user ......;
+    worker_processes auto;
+    pid /run/nginx.pid;
+    error_log /var/log/nginx/error.log;
+    include /etc/nginx/modules-enabled/*.conf;
+    
+    events {
+            worker_connections 768;
+            # multi_accept on;
+    }
+    
+    http {
+            sendfile on;
+            tcp_nopush on;
+            types_hash_max_size 2048;
+           
+            include /etc/nginx/mime.types;
+            default_type application/octet-stream;
+    
+            ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+            ssl_prefer_server_ciphers on;
+    
+            access_log /var/log/nginx/access.log;
+    
+            gzip on;
+            include /etc/nginx/conf.d/*.conf;
+            include /etc/nginx/sites-enabled/*;
+    }
+
+    
+sudo nano /etc/nginx/sites-available/mycloud (создаем файл с настройками)
+
+Сделать запись в файле:
+server {
+        listen 80;
+        server_name 89.108.71.67;
+
+        location /static/ {
+                root /home/olga/cloud/mycloud;
+        }
+        location / {
+            include proxy_params;
+            proxy_pass http://unix:/home/olga/cloud/mycloud/mycloud/project.sock;
+            }
+         
+}
+
+Переопределяем конфигурации сервера nginx и проверяем его работоспособность:
+
+sudo systemctl reload nginx
+sudo systemctl status nginx
+
+14.  Собираем статику.
+
+cd ~/cloud/mycloud
+python manage.py collectstatic --noinput
+
+15. Перезапускаем Gunicorn
+    sudo systemctl restart gunicorn
+    
+
