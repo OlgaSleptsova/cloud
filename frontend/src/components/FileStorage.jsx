@@ -77,7 +77,7 @@ const FileStorage = () => {
     }, [userId]);
 
     const handleViewFile = (fileUrl) => {
-    const fullUrl = `${API_URL}api_files${fileUrl}`;
+    const fullUrl = `${API_URL}${fileUrl}`;
     window.open(fullUrl, "_blank");
   };
     

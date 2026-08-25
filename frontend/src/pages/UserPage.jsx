@@ -167,7 +167,7 @@ function UserPage() {
   };
 
   const handleViewFile = (fileUrl) => {
-    const fullUrl = `${API_URL}${fileUrl.replace('/', '')}`;
+    const fullUrl = `${API_URL}${fileUrl}`;
     window.open(fullUrl, "_blank");
   };
 

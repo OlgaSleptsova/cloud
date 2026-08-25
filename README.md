@@ -2,7 +2,7 @@
 # Инструкция по развёртыванию и запуску проекта. 
 
 
-## Бэкенд
+
 
 1. Зарегистрируйтесь или войдите в свой аккаунт на сайте REG.RU.
 2. Создаём сервер (Ubuntu), выбираем тариф. Запоминаем (копируем) плавающий IP. 
@@ -35,16 +35,16 @@ pip freeze (проверка установки модулей)
 
 sudo su postgres
 psql
-create user olga with superuser;
+create user postgres with superuser;
 alter user postgres with password '123Qweasd~'
 
-alter user olga with password '123Qweasd~'; 
+
 create database mycloud;
 \q
 exit
 
 
-9.  Делаем миграции.
+1.  Делаем миграции.
 
 python manage.py migrate
 
@@ -129,17 +129,21 @@ sudo nano /etc/nginx/sites-available/mycloud (создаем файл с нас�
 
 Сделать запись в файле:
 server {
-        listen 80;
-        server_name 89.108.71.67;
+    listen 80;
+    server_name 83.166.245.85;
 
-        location /static/ {
-                root /home/olga/cloud/mycloud;
-        }
-        location / {
-            include proxy_params;
-            proxy_pass http://unix:/home/olga/cloud/mycloud/mycloud/project.sock;
-            }
-         
+    location /static/ {
+        alias /home/olga/cloud/mycloud/static/;
+    }
+
+    location /media/ {
+        alias /home/olga/cloud/mycloud/media/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/olga/cloud/mycloud/mycloud/project.sock;
+    }
 }
 
 Переопределяем конфигурации сервера nginx и проверяем его работоспособность:
@@ -154,5 +158,122 @@ python manage.py collectstatic --noinput
 
 15. Перезапускаем Gunicorn
     sudo systemctl restart gunicorn
+
+
+
+## Структура папок и файлов проекта.
+
+Cloud/ 
+frontend/  
+        dist/ - хранение скомпилированных, упакованных или готовых для распространения файлов проекта  
+        node_modules/ - для всех зависимостей, которые необходимы проекту для выполнения  
+        public/ - публичные файлы  
+            vite.svg  
+           
+        src/ - исходные файлы приложения   
+            assets/ - для хранения статичных ресурсов  
+                react.svg  
+            components/ - компоненты React  
+                FileStorage.css  
+                FileStorage.jsx  
+                Footer.css  
+                Footer. jsx  
+                Header.css  
+                Header.jsx  
+                LoadingFile.css  
+                LoadingFile.jsx  
+                NavBar.css  
+                NavBar.jsx  
+            pages/ - страницы приложения  
+                Admin.css  
+                Admin.jsx  
+                Home.css  
+                Home.jsx  
+                Login.css  
+                Login.jsx  
+                Logout.css  
+                Logout.jsx  
+                Register.css  
+                Register.jsx  
+                UserPage.css  
+                UserPage.jsx  
+                Validations.jsx  
+          
+        App.css стили для App.jsx  
+        App.jsx - главный компонент приложения  
+        index.css - стили  
+        index.jsx - точка входа для React  
+        main.jsx - точка входа для React-приложений   
+        build.jsx - кастомный файл  
+        eslint.config.js - конфигурационный файл для ESLint  
+        index.html - основной HTML-файл  
+        package-lock.json - важный компонент проект, использующий npm для управления зависимостями в JavaScript  
+        package.json - зависимости для фронтенда  
+        README.md - описание проекта  
+        vite.congig.jsx - конфигурационный файл для инструмента сборки Vite  
+
+        mycloud/  
+         adminmodul/ - административный модуль 
+            __pycache__/  
+              migrations/ - миграции базы данных 
+            __init__.py  
+              admin.py - настройки панели администратора  
+              apps.py - конфигурация приложения  
+              forms.py - создание форм      
+              models.py - модели данных Django  
+              serializers.py - сериализаторы DRF  
+              tests.py - тесты для приложения  
+              urls.py - URL маршруты   
+              utils.py - хранение вспомогательных функций  
+              views.py - логика Django
+          
+         filesstorage/ - файовый модуль
+          __pycache__/  
+              migrations/ - миграции базы данных 
+            __init__.py  
+              admin.py - настройки панели администратора  
+              apps.py - конфигурация приложения  
+              forms.py - создание форм      
+              models.py - модели данных Django  
+              serializers.py - сериализаторы DRF  
+              tests.py - тесты для приложения  
+              urls.py - URL маршруты   
+              utils.py - хранение вспомогательных функций  
+              views.py - логика Django
+            media/ - папка для хранения данных  
+                files/  
+                static/ - статические файлы Django  
+                mycloud/  
+                    __pycache__ - директория  
+                    __init__.py - обозначение директории как пакета  
+                    asgi.py - настройки ASGI  
+                    settings.py - настройки  
+                    urls.py - маршруты  
+                    wsgi.py - конфигурации для WSGI  
+                
+                .gitignore - игнорирование файлов, данных  
+                manage.py - точка для входа Django  
+                requirements.txt - зависимости Python  
+   
+    README.md - инструкция по развёртыванию и запуску проекта, и описание папок и файлов  
+```
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
     
 

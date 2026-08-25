@@ -187,11 +187,12 @@ def download_file(request, file_id):
 # скачивание файла по внешней ссылке
 
 def download_file2(request,op1):
-    doc2 = File.objects.get(public_link=op1)
+    # doc2 = File.objects.get(public_link=op1)
+    doc2 = get_object_or_404(File, public_link=op1)
     if os.path.exists(doc2.file.path):
         doc2.last_downloaded = datetime.now()
         doc2.save()
-        return FileResponse(open(doc2.file.path, 'rb'), as_attachment=True)
+        return FileResponse(open(doc2.file.path, 'rb'), as_attachment=True,filename=doc2.name)
     else:
         raise Http404("Файл не найден")
 
