@@ -63,7 +63,7 @@ const FileStorage = () => {
             
                 url:`${API_URL}api_admin/persons/files/${userId}/`
             });
-            setFiles(response.data || []);
+            setFiles(response.data.files || []);
         } catch (error) {
             console.error("Ошибка получения файлов:", error);
             setError("Ошибка при загрузке файлов.");

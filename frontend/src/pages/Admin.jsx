@@ -64,7 +64,7 @@ const Admin = () => {
     try {
       await authorizedRequest({
         method: "POST",
-        url: `${API_URL}/api_admin/persons/`,
+        url: `${API_URL}api_admin/persons/`,
         data: formData,
       });
       showNotification("Пользователь успешно зарегистрирован!");
@@ -83,7 +83,7 @@ const Admin = () => {
     try {
       const response = await authorizedRequest({
         method: "GET",
-        url: `${API_URL}/api_admin/persons/`,
+        url: `${API_URL}api_admin/persons/`,
       });
       setUsers(response.data || []);
     } catch (error) {
